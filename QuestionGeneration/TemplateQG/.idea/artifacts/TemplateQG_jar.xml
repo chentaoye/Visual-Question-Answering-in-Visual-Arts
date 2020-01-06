@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TemplateQG:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TemplateQG_jar</output-path>
+    <root id="archive" name="TemplateQG.jar">
+      <element id="module-output" name="TemplateQG" />
+    </root>
+  </artifact>
+</component>
