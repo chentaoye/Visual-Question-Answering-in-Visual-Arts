@@ -1,0 +1,67 @@
+import pandas as pd 
+import csv
+import random
+import json
+
+#construct the dictionary (key: imgId, val: comment)
+img2comment = {}
+train_file = open("./Data/SemArt/semart_train.csv", encoding='mac_roman')
+csv_reader = csv.reader(train_file, delimiter='\t')
+line_count = 0
+for row in csv_reader:
+    if line_count == 0:
+        print(row[0], row[1])
+        line_count += 1
+    else:
+        img2comment[row[0]] = row[1]
+        line_count += 1
+print(f'Processed {line_count} lines.')
+val_file = open("./Data/SemArt/semart_val.csv", encoding='mac_roman')
+csv_reader = csv.reader(val_file, delimiter='\t')
+line_count = 0
+for row in csv_reader:
+    if line_count == 0:
+        print(row[0], row[1])
+        line_count += 1
+    else:
+        img2comment[row[0]] = row[1]
+        line_count += 1
+print(f'Processed {line_count} lines.')
+test_file = open("./Data/SemArt/semart_test.csv", encoding='mac_roman')
+csv_reader = csv.reader(test_file, delimiter='\t')
+line_count = 0
+for row in csv_reader:
+    if line_count == 0:
+        print(row[0], row[1])
+        line_count += 1
+    else:
+        img2comment[row[0]] = row[1]
+        line_count += 1
+print(f'Processed {line_count} lines.')
+
+# read in json file
+col = ['QUESTION', 'COMMENT', 'ANSWER', 'LABEL']
+test_data = []
+
+with open('./Data/Bert/need_external_knowledge_comment_prediction.json') as json_file:
+    content = json.load(json_file)
+    count = 0
+    correct = 0
+    for example in content:
+        question = example['question']
+        positive = example['image']
+        answer = example['answer']
+        if positive in example['comments_prediction_top10']:
+            test_data.append([question, img2comment[positive], answer, 1])
+            for img in example['comments_prediction_top10']:
+                if img != positive:
+                    test_data.append([question, img2comment[img], answer, 0])
+            correct += 1
+        else:
+            for img in example['comments_prediction_top10']:
+                test_data.append([question, img2comment[img], answer, 0])
+        count += 1
+    print(correct/count, correct, count)
+test_df = pd.DataFrame(data=test_data, columns=col)
+test_df.to_csv('./Data/Bert/bert_end_to_end.csv', index=False)
+
