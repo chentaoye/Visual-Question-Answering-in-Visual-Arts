@@ -156,7 +156,7 @@ def test(eval_dataset, model):
         correct += 1 if topidx == 0 and labels[0] == 1 else 0
         total += 1
         if total % 500 == 0:
-            print(correct, total)
+            print('current #correct', correct, ', current #total', total)
         if preds is None:
             preds = logits.detach().cpu().numpy()
             out_label_ids = inputs['labels'].detach().cpu().numpy()
@@ -224,7 +224,7 @@ def process(fileName, data, qid):
     line_count = 0
     for row in csv_reader:
         if line_count == 0:
-            print(f'Column names are {", ".join(row)}')
+            # print(f'Column names are {", ".join(row)}')
             line_count += 1
         else:
             assert len(row) == 3
@@ -248,7 +248,7 @@ test_data = []
 fileName = './Data/Bert/bert_pipeline_result.csv'
 qid = process(fileName, test_data, qid)
 test_result = {'data': [{'title': 'test_corpus', 'paragraphs': test_data}]}
-print(invalid_answer_count, qid-80000)
+# print(invalid_answer_count, qid-80000)
 
 with open("./Data/XLNet/xlnet_pipeline.json", "w") as write_file:
     json.dump(test_result, write_file)
@@ -259,7 +259,7 @@ fileName = './Data/Bert/bert_clean_result.csv'
 qid = 80000
 qid = process(fileName, test_data, qid)
 test_result = {'data': [{'title': 'test_corpus', 'paragraphs': test_data}]}
-print(invalid_answer_count, qid-80000)
+# print(invalid_answer_count, qid-80000)
 
 with open("./Data/XLNet/xlnet_clean.json", "w") as write_file:
     json.dump(test_result, write_file)

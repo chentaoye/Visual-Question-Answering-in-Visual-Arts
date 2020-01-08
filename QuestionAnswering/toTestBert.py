@@ -61,7 +61,7 @@ with open('./Data/Bert/need_external_knowledge_comment_prediction.json') as json
             for img in example['comments_prediction_top10']:
                 test_data.append([question, img2comment[img], answer, 0])
         count += 1
-    print(correct/count, correct, count)
+    print('last stage acc:', correct/count, ', #correct:', correct, ', #total', count)
 test_df = pd.DataFrame(data=test_data, columns=col)
 test_df.to_csv('./Data/Bert/bert_end_to_end.csv', index=False)
 

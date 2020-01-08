@@ -72,7 +72,7 @@ def process(pre, post, data, length, qid):
             data.append({'context': context, 'qas': qas})
     return qid
 
-pre = 'qa_comments_train_'
+pre = './Data/SemArtQA/qa_comments_train_'
 post = '.csv'
 
 train_data = []
@@ -80,13 +80,13 @@ qid = process(pre, post, train_data, 19000, qid)
 train_result = {'data': [{'title': 'train_corpus', 'paragraphs': train_data}]}
 print(count, invalid_answer_count, qid)
 
-pre = 'qa_comments_val_'
+pre = './Data/SemArtQA/qa_comments_val_'
 val_data = []
 qid = process(pre, post, val_data, 1000, qid)
 val_result = {'data': [{'title': 'val_corpus', 'paragraphs': val_data}]}
 print(count, invalid_answer_count, qid)
 
-pre = 'qa_comments_test_'
+pre = './Data/SemArtQA/qa_comments_test_'
 test_data = []
 qid = process(pre, post, test_data, 1000, qid)
 test_result = {'data': [{'title': 'test_corpus', 'paragraphs': test_data}]}
@@ -94,11 +94,11 @@ print(count, invalid_answer_count, qid)
 
 
 
-with open("xlnet_train.json", "w") as write_file:
+with open("./Data/XLNet/xlnet_train.json", "w") as write_file:
     json.dump(train_result, write_file)
 
-with open("xlnet_val.json", "w") as write_file:
+with open("./Data/XLNet/xlnet_val.json", "w") as write_file:
     json.dump(val_result, write_file)
 
-with open("xlnet_test.json", "w") as write_file:
+with open("./Data/XLNet/xlnet_test.json", "w") as write_file:
     json.dump(test_result, write_file)
